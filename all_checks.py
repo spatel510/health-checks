@@ -3,6 +3,7 @@
 import os
 import shutil
 import sys
+import socket
 
 
 def check_reboot():
@@ -23,10 +24,21 @@ def check_root_full():
     return check_disk_full(disk="/", min_gb=2, min_percent=10)
 
 
+def check_no_network():
+    """Returns True if it fails to resolve GOoogle's URL, False otherwise"""
+
+    try:
+        socket.gethostname("www.google.com")
+        return False
+    except:
+        return True
+
+
 def main():
-    checks=[
+    checks = [
         (check_reboot, "Pending Reboot"),
-        (check_root_full, "Root Partition Full")
+        (check_root_full, "Root Partition Full"),
+        (check_no_network, "No working network"),
     ]
     everything_ok = True
     for check, msg in checks:
