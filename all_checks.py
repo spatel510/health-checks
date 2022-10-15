@@ -4,6 +4,7 @@ import os
 import shutil
 import sys
 import socket
+import psutil
 
 
 def check_reboot():
@@ -30,7 +31,7 @@ def check_cpu_constrained():
 
 
 def check_no_network():
-    """Returns True if it fails to resolve GOoogle's URL, False otherwise"""
+    """Returns True if it fails to resolve Google's URL, False otherwise"""
 
     try:
         socket.gethostname("www.google.com")
@@ -43,6 +44,7 @@ def main():
     checks = [
         (check_reboot, "Pending Reboot"),
         (check_root_full, "Root Partition Full"),
+        (check_cpu_constrained, "CPU load too high"),
         (check_no_network, "No working network"),
     ]
     everything_ok = True
