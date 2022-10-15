@@ -24,6 +24,11 @@ def check_root_full():
     return check_disk_full(disk="/", min_gb=2, min_percent=10)
 
 
+def check_cpu_constrained():
+    """Returns True if the cpu is having too much usage, False otherwise"""
+    return psutil.cpu_percent(1) > 75
+
+
 def check_no_network():
     """Returns True if it fails to resolve GOoogle's URL, False otherwise"""
 
@@ -50,5 +55,6 @@ def main():
 
     print("Everything ok.")
     sys.exit(0)
+
 
 main()
